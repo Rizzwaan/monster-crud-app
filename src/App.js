@@ -23,32 +23,36 @@ class App extends React.Component {
    this.setState({searchChange: e.target.value})
   }
   handleDelete = (v) => {
-    let newContacts = this.state.contactList.filter(contact => contact.id !== v.id);
+    const { contactList } = this.state
+    let newContacts =  contactList.filter(contact => contact.id !== v.id);
     this.setState({contactList: newContacts});
   }
   handleAddContact = (newContact) => {
-    newContact.div = this.state.contactList[this.state.contactList.length - 1].id + 1;
-    let contacts = this.state.contactList.slice();
+    const { contactList } = this.state
+    newContact.div =  contactList[ contactList.length - 1].id + 1;
+    let contacts =  contactList.slice();
     contacts.push(newContact);
     this.setState({contactList: contacts});
 
   }
   handleUpdate = (targetContact) => {
+    const { contactList } = this.state;
     this.setState({
       isAdd: false,
       isEdit: true,
     })
-    const index = this.state.contactList.indexOf(targetContact);
+    const index =  contactList.indexOf(targetContact);
     this.setState({
       formParams: targetContact,
       index: index,
     })
   }
   handleUpdateSave = (newContact) => {
-    let allContact = this.state.contactList.slice();
-    newContact.id = allContact[this.state.index].id;
-    newContact.avatar_url = allContact[this.state.index].avatar_url;
-    allContact[this.state.index] = newContact;
+    const { contactList, index } = this.state;
+    let allContact =  contactList.slice();
+    newContact.id = allContact[index].id;
+    newContact.avatar_url = allContact[index].avatar_url;
+    allContact[index] = newContact;
     this.setState({ 
       contactList: allContact,
       isAdd: true,
@@ -57,14 +61,15 @@ class App extends React.Component {
 
   }
   render() { 
-    let fiteredMonster = this.state.contactList.filter(contact => {
-      return contact.first_name.toLowerCase().includes(this.state.searchChange.toLowerCase());
+    const { contactList,searchChange, isAdd, isEdit,formParams } = this.state;
+    let fiteredMonster =  contactList.filter(contact => {
+      return contact.first_name.toLowerCase().includes( searchChange.toLowerCase());
     })
     return ( 
       <div className="main-content">
       <div className="monster-list">
         <h1>Awesome Contact App</h1>
-         <input type="text" onChange={this.handleChange}/>
+         <input type="text" onChange={this.handleChange} placeholder="Search Contact "/>
          <ContactList 
            contact={fiteredMonster} 
            handleDelete={this.handleDelete}
@@ -73,10 +78,10 @@ class App extends React.Component {
       </div>
       <div className="add-update-form">
        <AddAndUpdateForm 
-          isEdit={this.state.isEdit} 
-          isAdd={this.state.isAdd}
+          isEdit={isEdit} 
+          isAdd={isAdd}
           handleAddContact={this.handleAddContact}
-          formParams={this.state.formParams}
+          formParams={formParams}
           handleUpdateSave={this.handleUpdateSave}
           />
       </div>

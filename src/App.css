@@ -1,9 +1,13 @@
 .main-content{ 
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-column-gap: 1em
+  grid-template-columns: 2fr 0.7fr;
+  grid-column-gap: 2em
   
 }
 .add-update-form{
   margin-top: 10em;
+  
+}
+.monster-list{
+  text-align: center;
 }

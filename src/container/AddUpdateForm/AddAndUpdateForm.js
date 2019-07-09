@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './addupdateform.css'
 class AddAndUpdateForm extends React.Component{
   constructor(props){
     super(props);
@@ -21,15 +21,23 @@ class AddAndUpdateForm extends React.Component{
     }
   }
   onAddSubmit = (e) => {
+    const {first_name, last_name, email,phone} = this.state
     e.preventDefault();
     let newContact = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email: this.state.email,
-      avatar_url: this.state.first_name,
-      phone: this.state.phone
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      avatar_url: `https://robohash.org/${first_name}?size=100x100&set=set1`,
+      phone: phone
     }
     this.props.handleAddContact(newContact);
+    this.setState({
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: ""
+    });
+     
   }
   handleAddChange = (e) => {
     this.setState({
@@ -43,13 +51,14 @@ class AddAndUpdateForm extends React.Component{
     })
   }
   handleUpdateSubmit = (e) => {
+    const {first_name, last_name, email,phone} = this.state;
     e.preventDefault();
     let newContact = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email: this.state.email,
-      avatar_url: this.state.first_name,
-      phone: this.state.phone
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      avatar_url: first_name,
+      phone: phone
     }
     this.props.handleUpdateSave(newContact);
   }
@@ -57,30 +66,40 @@ class AddAndUpdateForm extends React.Component{
     return(
      <div>
         {this.props.isAdd && 
-          <form onSubmit={this.onAddSubmit}>
-            <input type="text" name="first_name" required onChange={this.handleAddChange} placeholder="First Name"/><br/>
-            <input type="text" name="last_name" required onChange={this.handleAddChange} placeholder="Last Name"/><br/>
-            <input type="email" name="email" required onChange={this.handleAddChange} placeholder="Email"/><br/>
-            <input type="text" name="phone" required onChange={this.handleAddChange} placeholder="Phone Number"/><br/>
+         <div>
+           <h1>Add Contact</h1>
+          <form onSubmit={this.onAddSubmit} className="input-form">
+            <input type="text" value={this.state.first_name} name="first_name" required onChange={this.handleAddChange} placeholder="First Name" /><br/>
+            <input type="text" name="last_name" required onChange={this.handleAddChange} placeholder="Last Name" value={this.state.last_name}/><br/>
+            <input type="email" name="email" required onChange={this.handleAddChange} placeholder="Email" value={this.state.email}/><br/>
+            <input type="text" name="phone" required onChange={this.handleAddChange} placeholder="Phone Number" value={this.state.phone}/><br/>
             <button type="submit">Add Todos</button>
           </form>
+          </div> 
         }
         {this.props.isEdit && 
-          <form onSubmit={this.handleUpdateSubmit}>
+          <div>
+            <h1>Update Contact</h1>
+          <form onSubmit={this.handleUpdateSubmit} className="input-form">
             <input type="text" name="first_name" placeholder="First Name"
             onChange={this.handleEditChange} required
             value={this.state.first_name}/><br/>
+
             <input type="text" name="last_name" placeholder="Last Name"
             onChange={this.handleEditChange} required
             value={this.state.last_name}/><br/>
+
             <input type="email" name="email" placeholder="Email"
             onChange={this.handleEditChange} required
             value={this.state.email}/><br/>
+
             <input type="text" name="phone" placeholder="Phone Number"
             onChange={this.handleEditChange} required
             value={this.state.phone}/><br/>
+
             <button type="submit">Update Todos</button>
           </form>
+          </div>
         }
      </div>
     );

@@ -4,7 +4,7 @@ import './card.css';
 class ContactList  extends Component {
   render() { 
     return ( 
-      <div>
+      <div className="contact-wrapper">
         {this.props.contact.map((v, i) => {
           return (
             <div key={i} className="contact-item">
