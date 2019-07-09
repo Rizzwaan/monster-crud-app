@@ -1,0 +1,9 @@
+.main-content{ 
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-column-gap: 1em
+  
+}
+.add-update-form{
+  margin-top: 10em;
+}
